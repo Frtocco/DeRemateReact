@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { View, TextInput, Text, TouchableOpacity} from 'react-native';
-import { styles } from './InputStyles';
+import { styles } from '../components/InputStyles';
 
-const LogIn = () => {
+const Register = ({navigation}) => {
     
-    const[logInInput, setLogInInput] = useState("");
+    const[usernameInput, setUsernameInput] = useState("");
+    const[emailInput, setEmailInput] = useState("");
     const[passwordInput, setPassword] = useState("");
 
 
@@ -14,23 +15,36 @@ const LogIn = () => {
                 De Remate
             </Text>
             <Text style={styles.title}>
-                Bienvenido!
+                Registrese
             </Text> 
             <View style={{width: '100%'}}>   
-                <Text style={{marginLeft:'5%', marginTop:5}}>
+                <Text style={{marginLeft:'5%', margin:3}}>
                     Username
                 </Text>
                 <View style={styles.viewContainer}>
                     <TextInput
                         style={styles.input}
-                        value={logInInput}
-                        onChangeText={setLogInInput}
+                        value={usernameInput}
+                        onChangeText={setUsernameInput}
                         placeholder="Escribe tu nombre de usuario..."
                     />
                 </View>
-            </View> 
+            </View>
             <View style={{width: '100%'}}>   
-                <Text style={{marginLeft:'5%', marginTop:5}}>
+                <Text style={{marginLeft:'5%', margin:3}}>
+                    Email
+                </Text>
+                <View style={styles.viewContainer}>
+                    <TextInput
+                        style={styles.input}
+                        value={emailInput}
+                        onChangeText={setEmailInput}
+                        placeholder="Escribe tu email..."
+                    />
+                </View>
+            </View>  
+            <View style={{width: '100%'}}>   
+                <Text style={{marginLeft:'5%', margin:3}}>
                     Password
                 </Text>    
                 <View style={styles.viewContainer}>    
@@ -43,17 +57,13 @@ const LogIn = () => {
                     />
                 </View>
             </View>
-            <Text style={styles.displayText}>
-                Forgot your password?
+            <Text style={styles.displayText} onPress={() => navigation.replace('LogIn')}>
+                Back to Log in
             </Text> 
             <TouchableOpacity style={styles.styledButton}>
-                <Text style={styles.buttonText}> Log in </Text>
+                <Text style={styles.buttonText}>  Register </Text>
             </TouchableOpacity>
-            <Text style={styles.displayText}>
-                Don't have an account? Register here.
-            </Text>
-
         </View>
     )
 };
-export default LogIn;
+export default Register;

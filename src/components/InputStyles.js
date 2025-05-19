@@ -23,14 +23,15 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#000000',
     borderRadius: 4,
-    marginBottom: 10,
+    marginBottom: 12,
   },
   styledButton: {
     width:'75%',  
     backgroundColor: '#3498db',
     paddingVertical: 8,
-    paddingHorizontal: 15,
+    paddingHorizontal: 16,
     borderRadius: 8,
+    margin: 10
   },
   buttonText: {
     color: '#fff',
@@ -50,6 +51,7 @@ export const styles = StyleSheet.create({
     color: '#2c3e50',
     textAlign: 'center',
   },
+  
   viewContainer:{
     width:'100%',
     alignItems: 'center',
