@@ -48,8 +48,9 @@ const LogIn = ({navigation}) => {
                     Forgot your password?
                 </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.styledButton} >
-                <Text style={styles.buttonText}>  Log in </Text>
+            <TouchableOpacity style={styles.styledButton}
+                onPress={() => navigation.navigate('AppTabs')}>
+                <Text style={styles.buttonText}> Log in </Text>
             </TouchableOpacity>
             <TouchableOpacity >  
                 <Text style={styles.displayText} onPress={() => navigation.navigate('Register')}>
