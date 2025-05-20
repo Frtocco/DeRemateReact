@@ -7,6 +7,7 @@ import Register from '../screens/Register';
 import ForgotPassword from '../screens/ForgotPassword';
 import Menu from '../screens/Menu';
 import InputDemo from '../components/InputDemo';
+import Profile from '../screens/Profile';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -16,7 +17,7 @@ const Tab = createBottomTabNavigator();
 const AppTabs = () => (
   <Tab.Navigator>
     <Tab.Screen name="Menu" component={Menu} options={{ headerShown: false }} />
-    <Tab.Screen name="InputDemo" component={InputDemo} options={{ headerShown: false }} />
+    <Tab.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
   </Tab.Navigator>
 );
 
