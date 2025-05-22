@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import { View, TextInput, Text, TouchableOpacity} from 'react-native';
 import { styles } from '../components/InputStyles';
+import { AuthContext } from '../context/AuthContext';
 
 const LogIn = ({navigation}) => {
     
     const[logInInput, setLogInInput] = useState("");
     const[passwordInput, setPassword] = useState("");
+    const { login } = useContext(AuthContext);
 
 
     return(
@@ -49,7 +51,7 @@ const LogIn = ({navigation}) => {
                 </Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.styledButton}
-                onPress={() => navigation.navigate('AppTabs')}>
+                onPress={login}> {/* <-- Llama a login */}
                 <Text style={styles.buttonText}> Log in </Text>
             </TouchableOpacity>
             <TouchableOpacity >  

@@ -32,12 +32,9 @@ const AuthStack = () => (
   </Stack.Navigator>
 );
 
-// Stack que elige entre log in y menu flow
-const RootStack = () => (
-  <Stack.Navigator screenOptions={{ headerShown: false }}>
-    <Stack.Screen name="Auth" component={AuthStack} />
-    <Stack.Screen name="AppTabs" component={AppTabs} />
-  </Stack.Navigator>
+// validacion de a que stack va a ir el usuario
+const AppNavigator = ({ isAuthenticated }) => (
+  isAuthenticated ? <AppTabs /> : <AuthStack />
 );
 
-export default RootStack;
+export default AppNavigator;
