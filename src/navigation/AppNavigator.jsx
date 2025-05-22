@@ -8,6 +8,7 @@ import ForgotPassword from '../screens/ForgotPassword';
 import Menu from '../screens/Menu';
 import InputDemo from '../components/InputDemo';
 import Profile from '../screens/Profile';
+import Historial from '../screens/Historial';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -18,6 +19,7 @@ const AppTabs = () => (
   <Tab.Navigator>
     <Tab.Screen name="Menu" component={Menu} options={{ headerShown: false }} />
     <Tab.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
+    <Tab.Screen name="Historial" component={Historial} options={{ headerShown: false }} />
   </Tab.Navigator>
 );
 
@@ -30,12 +32,9 @@ const AuthStack = () => (
   </Stack.Navigator>
 );
 
-// Stack que elige entre log in y menu flow
-const RootStack = () => (
-  <Stack.Navigator screenOptions={{ headerShown: false }}>
-    <Stack.Screen name="Auth" component={AuthStack} />
-    <Stack.Screen name="AppTabs" component={AppTabs} />
-  </Stack.Navigator>
+// validacion de a que stack va a ir el usuario
+const AppNavigator = ({ isAuthenticated }) => (
+  isAuthenticated ? <AppTabs /> : <AuthStack />
 );
 
-export default RootStack;
+export default AppNavigator;
