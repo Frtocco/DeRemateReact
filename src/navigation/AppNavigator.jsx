@@ -22,6 +22,7 @@ const AppTabs = () => (
     <Tab.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
     <Tab.Screen name="OrdenesPendientes" component={PendingOrderCard} />
     <Tab.Screen name="Historial" component={Historial} options={{ headerShown: false }} />
+    <Tab.Screen name="LogIn" component={LogIn} />
   </Tab.Navigator>
 );
 

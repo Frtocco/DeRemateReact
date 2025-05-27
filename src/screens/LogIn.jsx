@@ -62,7 +62,7 @@ const LogIn = ({navigation}) => {
 
             <TouchableOpacity style={styles.styledButton} onPress={handleLogin}>
                 <Text style={styles.buttonText}>Log in</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> 
 
             <TouchableOpacity>
                 <Text 

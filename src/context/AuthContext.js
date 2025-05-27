@@ -14,8 +14,8 @@ export const AuthProvider = ({ children }) => {
     init();
   }, []);
 
-  const login = async () => {
-    await saveToken('fake-token');
+  const login = async (data) => {
+    await saveToken(data.token);
     setIsAuthenticated(true);
   };
 
