@@ -7,8 +7,9 @@ import { getToken } from '../utils/tokenStorage';
 export const useAxios = () => {
   const { logout } = useContext(AuthContext);
   const navigation = useNavigation();
-  const axiosInstance = useRef(axios.create({ baseURL: 'https://http://localhost:1234' }));
-
+  const axiosInstance = useRef(axios.create({baseURL: 'http://10.0.2.2:1234' }));
+  // http://10.0.2.2:1234 si la app esta corriendo local desde emulador android
+  
   useEffect(() => {
     const instance = axiosInstance.current;
 
