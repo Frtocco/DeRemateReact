@@ -9,6 +9,7 @@ import Menu from '../screens/Menu';
 import InputDemo from '../components/InputDemo';
 import Profile from '../screens/Profile';
 import Historial from '../screens/Historial';
+import PendingOrderCard from '../components/PendingOrderCard';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -19,6 +20,7 @@ const AppTabs = () => (
   <Tab.Navigator>
     <Tab.Screen name="Menu" component={Menu} options={{ headerShown: false }} />
     <Tab.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
+    <Tab.Screen name="OrdenesPendientes" component={PendingOrderCard} />
     <Tab.Screen name="Historial" component={Historial} options={{ headerShown: false }} />
   </Tab.Navigator>
 );
