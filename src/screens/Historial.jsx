@@ -12,7 +12,7 @@ const Historial = ({ navigation }) => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get('http://localhost:1234/orders/history?riderId=c7501d98-ef08-47ec-8e59-c4e9ae110eda');
+        const response = await axios.get('/orders/history');
         setLista(response.data);
       } catch (error) {
         console.error('Error fetching orders:', error);
