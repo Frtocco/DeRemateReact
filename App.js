@@ -1,16 +1,16 @@
-import React from 'react'; // Asegúrate de importar React
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './src/navigation/AppNavigator';
-import { AuthProvider, AuthContext } from './src/context/AuthContext'; // <-- AGREGA ESTA LÍNEA
+import { AuthProvider, AuthContext } from './src/context/AuthContext';
 
 
 function AppContent() {
   const { isAuthenticated } = React.useContext(AuthContext);
 
   if (isAuthenticated === null) {
-    return null; // O un spinner de carga
+    return null; 
   }
 
   return (

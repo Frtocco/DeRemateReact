@@ -1,10 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, TextInput, Text, TouchableOpacity} from 'react-native';
 import { styles } from '../components/InputStyles';
+import { AuthContext } from '../context/AuthContext';
+import { useAxios } from '../hooks/UseAxios';
 
 const ForgotPassword = ({navigation}) => {
     
     const[emailInput, setEmailInput] = useState("");
+    const axios = useAxios();
+
+    const handlePasswordChange = async () => {
+        try {
+            const response = await axios.post('/users/forgot-password', {
+                email: emailInput
+            });
+
+        } catch (error) {
+            console.error(error);
+            Alert.alert("Error", "Usuario o contraseña incorrectos");
+        }
+    };
 
     return(
         <View style={styles.container}>
@@ -24,10 +39,10 @@ const ForgotPassword = ({navigation}) => {
                         value={emailInput}
                         onChangeText={setEmailInput}
                         placeholder="Escribe tu email"
-                    />
+                    />  
                 </View>
             </View> 
-            <TouchableOpacity style={styles.styledButton}>
+            <TouchableOpacity style={styles.styledButton} onPress={handlePasswordChange}>
                 <Text style={styles.buttonText}>  Send Email </Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate('LogIn')} >  

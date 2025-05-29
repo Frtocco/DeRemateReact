@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, TextInput, Text, TouchableOpacity} from 'react-native';
 import { styles } from '../components/InputStyles';
+import { AuthContext } from '../context/AuthContext';
+import { useAxios } from '../hooks/UseAxios';
+import { Alert } from 'react-native';
 
 const Register = ({navigation}) => {
     
@@ -8,7 +11,32 @@ const Register = ({navigation}) => {
     const[emailInput, setEmailInput] = useState("");
     const[passwordInput, setPassword] = useState("");
 
+    const { login } = useContext(AuthContext);
+    const axios = useAxios();
 
+    const handleRegister = async () => {
+        try {
+        const response = await axios.post('/users', {
+          username: usernameInput,
+          password: passwordInput,
+          email: emailInput
+        });
+        
+        Alert.alert(
+          "Verificación enviada",
+          "Te enviamos un correo para que verifiques tu cuenta.",
+              [
+                {
+                  text: "OK",
+                  onPress: () => navigation.replace('LogIn')
+                }
+              ]
+            );
+      } catch (error) {
+        console.error(error);
+        Alert.alert("Error", "Hubo un problema al registrar el usuario.");
+      }
+    };
     return(
         <View style={styles.container}>
             <Text style={styles.superTitle}>
@@ -60,7 +88,7 @@ const Register = ({navigation}) => {
             <Text style={styles.displayText} onPress={() => navigation.replace('LogIn')}>
                 Back to Log in
             </Text> 
-            <TouchableOpacity style={styles.styledButton}>
+            <TouchableOpacity style={styles.styledButton} onPress={handleRegister}>
                 <Text style={styles.buttonText}>  Register </Text>
             </TouchableOpacity>
         </View>

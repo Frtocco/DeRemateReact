@@ -4,7 +4,10 @@ import { getToken, saveToken, removeToken } from '../utils/tokenStorage';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  
   const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const [username, setUsername] = useState(null);
+  const [email, setEmail] = useState(null);
 
   useEffect(() => {
     const init = async () => {
@@ -14,18 +17,22 @@ export const AuthProvider = ({ children }) => {
     init();
   }, []);
 
-  const login = async () => {
-    await saveToken('fake-token');
+  const login = async (data) => {
+    await saveToken(data.token);
     setIsAuthenticated(true);
+    setUsername(data.username);
+    setEmail(data.email);
   };
 
   const logout = async () => {
     await removeToken();
     setIsAuthenticated(false);
+    setUsername(null);
+    setEmail(null);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, username, email, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
