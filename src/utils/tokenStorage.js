@@ -27,7 +27,7 @@ export const saveToken = async (token) => {
   try {
     await storage.setItemAsync('jwt', token);
   } catch (error) {
-    console.error('Error saving token:', error);
+    console.log('Error saving token:', error);
     // Fallback to a simpler implementation if the method doesn't exist
     if (isWeb) {
       localStorage.setItem('jwt', token);

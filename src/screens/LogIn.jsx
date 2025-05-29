@@ -17,7 +17,7 @@ const LogIn = ({navigation}) => {
                 username: logInInput,
                 password: passwordInput
             });
-
+            
             login(response.data);
 
         } catch (error) {
