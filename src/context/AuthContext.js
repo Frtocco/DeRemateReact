@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (data) => {
-    await saveToken(data.token);
+    await saveToken(data.authResult.token);
     setIsAuthenticated(true);
     setUsername(data.username);
     setEmail(data.email);
