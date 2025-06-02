@@ -12,6 +12,14 @@ const Menu = ({ navigation }) => {
 
       <Text>Bienvenido devuelta!</Text>
 
+      <TouchableOpacity style={styles.styledButton} onPress={() => {navigation.navigate('OrdenesPendientes')}}>
+        <Text style={styles.buttonText}>Órdenes Pendientes</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.styledButton} onPress={() => {navigation.navigate('Historial')}}>
+        <Text style={styles.buttonText}>Historial de Órdenes</Text>
+      </TouchableOpacity>
+
       <TouchableOpacity style={styles.styledButton} onPress={logout}>
         <Text style={styles.buttonText}>Log out</Text>
       </TouchableOpacity>
