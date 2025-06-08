@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback,useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import PendingOrderCard from '../components/PendingOrderCard';
 import { useAxios } from '../hooks/UseAxios';
@@ -9,19 +10,21 @@ const OrdenesPendientes = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const axios = useAxios();
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const response = await axios.get('/orders/pendings');
-        setPendientes(response.data);
-      } catch (error) {
-        console.error('Error fetching orders:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchOrders();
-  }, [axios]);
+  useFocusEffect(
+    useCallback(() => {
+      const fetchOrders = async () => {
+        try {
+          const response = await axios.get('/orders/pendings');
+          setPendientes(response.data);
+        } catch (error) {
+          console.error('Error fetching orders:', error);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchOrders();
+    }, []) 
+  );
 
   if (loading) {
     return (
@@ -37,7 +40,7 @@ const OrdenesPendientes = ({ navigation }) => {
       <FlatList
         data={pendientes}
         keyExtractor={(item, index) => item.orderId ? item.orderId.toString() : index.toString()}
-        renderItem={({ item }) => <PendingOrderCard order={item} />}
+        renderItem={({ item }) => <PendingOrderCard order={item}/>}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         contentContainerStyle={styles.listContent}
       />
