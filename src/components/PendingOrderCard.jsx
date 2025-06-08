@@ -1,14 +1,21 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
+import { useAxios } from '../hooks/UseAxios';
 
 const PendingOrderCard = ({ order }) => {
 
   const [ordenTomada, setOrdenTomada] = useState(false);
+  const axios = useAxios();
 
-  const handleTomarOrden = (orderId) => {
-    setOrdenTomada(true)
+
+  const handleTomarOrden = async (orderId) => {
+    try {
+      await axios.put(`/orders/${orderId}`, {status:'In Progress'});
+      setOrdenTomada(true)
+    } catch (error) {
+      console.error('Error actualizando orden:', error);
+    }
   }
-
 
   return (
     <View style={styles.container}>
@@ -19,7 +26,7 @@ const PendingOrderCard = ({ order }) => {
       {ordenTomada ? (
         <Text style={styles.takenText}>Orden tomada ✅</Text>
       ) : (
-        <TouchableOpacity style={styles.styledButton} onPress={handleTomarOrden}>
+        <TouchableOpacity style={styles.styledButton} onPress={() => handleTomarOrden(order.orderId)}>
           <Text style={styles.buttonText}>Tomar Viaje</Text>
         </TouchableOpacity>
       )}
