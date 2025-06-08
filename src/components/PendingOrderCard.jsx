@@ -1,24 +1,28 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
 
 const PendingOrderCard = ({ order }) => {
 
-  const tomarOrden = async (orderId) => {
-    try {
-      const response = await axios.get(`/orders/${orderId}`);
-    } catch (error) {
-      console.error('Error fetching orders:', error);
-    } 
+  const [ordenTomada, setOrdenTomada] = useState(false);
+
+  const handleTomarOrden = (orderId) => {
+    setOrdenTomada(true)
   }
+
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Orden #{order.orderId}</Text>
       <Text style={styles.text}>Dirección: {order.address}</Text>
-      <Text style={styles.text}>Estado: {order.status}</Text>
+      <Text style={styles.text}>Estado: {ordenTomada ? 'En Proceso' : 'Pendiente'}</Text>
 
-      <TouchableOpacity style={styles.styledButton} onPress={() => tomarOrden(order.orderId)}>
-        <Text style={styles.buttonText}>Comenzar Viaje</Text>
-      </TouchableOpacity>
+      {ordenTomada ? (
+        <Text style={styles.takenText}>Orden tomada ✅</Text>
+      ) : (
+        <TouchableOpacity style={styles.styledButton} onPress={handleTomarOrden}>
+          <Text style={styles.buttonText}>Tomar Viaje</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -59,6 +63,18 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
+  takenText: {
+  position: 'absolute',
+  bottom: 10,
+  right: 10,
+  backgroundColor: '#28a745', // verde éxito
+  color: 'white',
+  fontWeight: 'bold',
+  paddingVertical: 8,
+  paddingHorizontal: 12,
+  borderRadius: 8,
+},
+
 });
 
 export default PendingOrderCard;
