@@ -4,10 +4,11 @@ import { useFocusEffect } from '@react-navigation/native';
 import { styles } from '../components/InputStyles';
 import { AuthContext } from '../context/AuthContext';
 import OrderStatistics from '../components/OrderStatistics';
+import Puntuacion from '../components/Puntuacion';
 import { useAxios } from '../hooks/UseAxios';
 
 const Menu = ({ navigation }) => {
-  const { logout, username } = useContext(AuthContext);
+  const { logout, username, puntuacion } = useContext(AuthContext);
   const [viajesCompletados, setViajesCompletados] = useState(0)
   const axios = useAxios();
 
@@ -34,6 +35,7 @@ const Menu = ({ navigation }) => {
       <Text>Bienvenido, {username}!</Text>
 
       <OrderStatistics cantidad={viajesCompletados}/>
+      <Puntuacion cantidad={puntuacion}/>
 
       <TouchableOpacity style={styles.styledButton} onPress={logout}>
         <Text style={styles.buttonText}>Log out</Text>
