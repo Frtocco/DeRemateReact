@@ -1,15 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const OrderStatistics = ({ cantidad }) => {
-
+const Puntuacion = ({ cantidad }) => {
   return (
     <View style={styles.card}>
-      <Text style={styles.label}>Viajes completados</Text>
-      <Text style={styles.number}>{cantidad}</Text>
+      <Text style={styles.label}>Tu Puntuación</Text>
+      <Text style={styles.number}>{cantidad} ⭐️</Text>
     </View>
   );
 };
+
+export default Puntuacion;
 
 const styles = StyleSheet.create({
   card: {
@@ -25,10 +26,10 @@ const styles = StyleSheet.create({
     elevation: 4,
     alignItems: 'center',
     justifyContent: 'center',
-    width: 160,
+    width: 160, 
   },
   label: {
-    textAlign:'center',
+    textAlign: 'center',
     fontSize: 16,
     color: '#666',
     marginBottom: 8,
@@ -39,5 +40,3 @@ const styles = StyleSheet.create({
     color: '#007bff',
   },
 });
-
-export default OrderStatistics;
