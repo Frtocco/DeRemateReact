@@ -25,8 +25,10 @@ const styles = StyleSheet.create({
     elevation: 4,
     alignItems: 'center',
     justifyContent: 'center',
+    width: 160,
   },
   label: {
+    textAlign:'center',
     fontSize: 16,
     color: '#666',
     marginBottom: 8,
