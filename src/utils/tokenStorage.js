@@ -4,7 +4,7 @@ import { Platform } from 'react-native';
 // Check if we're running on web
 const isWeb = Platform.OS === 'web';
 
-// Mock implementation for web environment using localStorage
+// implementacion para WEB
 const webStorage = {
   setItemAsync: (key, value) => {
     localStorage.setItem(key, value);
@@ -20,7 +20,7 @@ const webStorage = {
   },
 };
 
-// Use the appropriate storage implementation
+// ASigna la variable storage al almacenamiento dependiendo de la plataforma
 const storage = isWeb ? webStorage : SecureStore;
 
 export const saveToken = async (token) => {

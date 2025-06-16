@@ -6,7 +6,7 @@ import LogIn from '../screens/LogIn';
 import Register from '../screens/Register';
 import ForgotPassword from '../screens/ForgotPassword';
 import Menu from '../screens/Menu';
-import InputDemo from '../components/InputDemo';
+import qrcamara from '../screens/CamaraQR';
 import Profile from '../screens/Profile';
 import Historial from '../screens/Historial';
 import OrdenesPendientes from '../screens/OrdenesPendientes'
@@ -20,6 +20,7 @@ const AppTabs = () => (
   <Tab.Navigator>
     <Tab.Screen name="Menu" component={Menu} options={{ headerShown: false }} />
     <Tab.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
+    <Tab.Screen name="QR" component={qrcamara} options={{ headerShown: false }} />
     <Tab.Screen name="OrdenesPendientes" component={OrdenesPendientes} />
     <Tab.Screen name="Historial" component={Historial} options={{ headerShown: false }} />
   </Tab.Navigator>
