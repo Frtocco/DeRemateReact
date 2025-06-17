@@ -8,6 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [username, setUsername] = useState(null);
   const [email, setEmail] = useState(null);
+  const [puntuacion, setPuntuacion] = useState(null);
 
   useEffect(() => {
     const init = async () => {
@@ -18,10 +19,12 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (data) => {
-    await saveToken(data.token);
+    await saveToken(data.authResult.token);
     setIsAuthenticated(true);
     setUsername(data.username);
     setEmail(data.email);
+    setPuntuacion(data.stars)
+
   };
 
   const logout = async () => {
@@ -29,10 +32,11 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
     setUsername(null);
     setEmail(null);
+    setPuntuacion(null)
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, username, email, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, username, email, login, logout, puntuacion }}>
       {children}
     </AuthContext.Provider>
   );
