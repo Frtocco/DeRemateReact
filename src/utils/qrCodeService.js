@@ -14,4 +14,10 @@ export const useQRCodeService = () => {
   return {
     processQRCode
   };
+
+
+
+
+
+  
 };

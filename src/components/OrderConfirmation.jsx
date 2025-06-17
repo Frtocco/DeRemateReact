@@ -4,17 +4,21 @@ import { useAxios } from '../hooks/UseAxios';
 
 const OrderConfirmation = ({ order, onCancel }) => {
   const [ordenTomada, setOrdenTomada] = useState(false);
+  const [loading, setLoading] = useState(false);
   const axios = useAxios();
 
   const handleTomarOrden = async (orderId) => {
+    setLoading(true);
     try {
       await axios.put(`/orders/${orderId}`, { status: 'In Progress' });
       setOrdenTomada(true);
       setTimeout(() => {
-      onCancel();
-    }, 1000);
+        onCancel();
+      }, 1000);
     } catch (error) {
       console.error('Error actualizando orden:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -24,16 +28,22 @@ const OrderConfirmation = ({ order, onCancel }) => {
       <Text style={styles.text}>Dirección: {order.address}</Text>
       <Text style={styles.text}>Estado: {ordenTomada ? 'En Proceso' : 'Pendiente'}</Text>
       <View style={styles.buttonRow}>
-        {ordenTomada ? (
-        <Text style={styles.takenText}>Orden tomada ✅</Text>
-      ) : (
-        <TouchableOpacity style={styles.styledButton} onPress={() => handleTomarOrden(order.orderId)}>
-          <Text style={styles.buttonText}>Tomar Viaje</Text>
+        <TouchableOpacity
+          style={ordenTomada ? styles.confirmedButton : styles.confirmButton}
+          onPress={()=>handleTomarOrden(order.orderId)}
+          disabled={loading}
+        >
+          <Text style={ordenTomada ? styles.confirmedButtonText : styles.confirmButtonText}>
+            {ordenTomada ? 'Tomada✅' : 'Tomar orden'}
+          </Text>
         </TouchableOpacity>
-      )}
-      <TouchableOpacity style={styles.cancelButton} onPress={onCancel}>
-        <Text style={styles.cancelButtonText}>Cancelar</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.cancelButton}
+          onPress={onCancel}
+          disabled={loading}
+        >
+          <Text style={styles.cancelButtonText}>Cancelar</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -57,12 +67,12 @@ const styles = StyleSheet.create({
     minHeight: 120,
   },
   buttonRow: {
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  width: '100%',
-  marginRight: 10, 
-},
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    marginRight: 10,
+  },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
@@ -72,36 +82,35 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 5,
   },
-  styledButton: {
+  confirmButton: {
     flex: 1,
     alignItems: 'center',
-    position: 'absolute',
-    bottom: 50,
-    right: 10,
     backgroundColor: '#007bff',
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: 8,
+    marginRight: 10,
   },
-  buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  takenText: {
-    position: 'absolute',
-    bottom: 50,
-    right: 10,
+  confirmedButton: {
+    flex: 1,
+    alignItems: 'center',
     backgroundColor: '#28a745',
-    color: 'white',
-    fontWeight: 'bold',
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: 8,
-    flex: 1,
-    alignItems: 'center',
+    marginRight: 10,
+  },
+  confirmButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  confirmedButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
   cancelButton: {
-    marginTop: 20,
+    flex: 1,
+    alignItems: 'center',
     backgroundColor: '#dc3545',
     paddingVertical: 10,
     paddingHorizontal: 20,

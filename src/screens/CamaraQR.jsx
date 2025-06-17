@@ -4,12 +4,14 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useQRCodeService } from '../utils/qrCodeService';
 import { useAxios } from '../hooks/UseAxios';
-import OrderConfirmation from '../components/OrderConfirmation';
+import OrderConfirmation from '../components/orderConfirmation';
 
 const QRScanner = ({ navigation }) => {
   const [scanned, setScanned] = useState(false);
   const [loading, setLoading] = useState(false);
   const [orden, setOrden] = useState(null);
+  const [disponible,setDisponible] =useState();
+  const [mensajeError, setMensajeError] = useState('');
   const insets = useSafeAreaInsets();
   const { processQRCode } = useQRCodeService();
   const axios = useAxios();
@@ -20,12 +22,27 @@ const QRScanner = ({ navigation }) => {
     (async () => {
       requestPermission();
     })();
-  }, [orden]);
+  }, []);
 
-  const obtenerOrden = async (orderId) => {
-    const orden = await axios.get(`orders/byId/${orderId}`);
-    console.log(orden.data);
-    return orden.data;
+  const obtenerOrden = async orderId => {
+    const response = await axios.get(`orders/byId/${orderId}`);
+    const orden = response.data;
+
+    if (!orden) {
+      setMensajeError('Error: QR asignado a orden inexistente');
+      setDisponible(false);
+      return 'orden vacia';
+    }
+
+    if (orden.status === 'Pending') {
+      setDisponible(true);
+      setMensajeError('');
+      return orden;
+    } else {
+      setDisponible(false);
+      setMensajeError('La orden no está disponible');
+      return orden;
+    }
   };
 
   const handleBarCodeScanned = async ({ data }) => {
@@ -82,15 +99,32 @@ const QRScanner = ({ navigation }) => {
         onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
       />
       {orden && (
-        <View style={styles.overlay}>
-          <OrderConfirmation
-            order={orden}
-            onCancel={() => {
-              setOrden(null);
-              setScanned(false);
-            }}
-          />
-        </View>
+        disponible === false ? (
+          Alert.alert(
+            'Orden no disponible',
+            mensajeError,
+            [
+              {
+                text: 'Aceptar',
+                onPress: () => {
+                  setOrden(null);
+                  setScanned(false);
+                },
+              },
+            ],
+            { cancelable: false }
+          ) && null
+        ) : (
+          <View style={styles.overlay}>
+            <OrderConfirmation
+              order={orden}
+              onCancel={() => {
+                setOrden(null);
+                setScanned(false);
+              }}
+            />
+          </View>
+        )
       )}
     </View>
   );
@@ -102,10 +136,13 @@ const styles = StyleSheet.create({
   text: { fontSize: 18, marginBottom: 20, textAlign: 'center' },
   overlay: {
     position: 'absolute',
-    top: 0, left: 0, right: 0, bottom: 0,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.4)', // oscurece el fondo
+    backgroundColor: 'rgba(0,0,0,0.4)',
     zIndex: 10,
   },
 });
