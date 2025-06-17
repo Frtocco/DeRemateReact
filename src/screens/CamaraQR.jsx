@@ -1,14 +1,18 @@
-import { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Alert, ActivityIndicator,Button } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text, Alert, ActivityIndicator } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useQRCodeService } from '../utils/qrCodeService';
+import { useAxios } from '../hooks/UseAxios';
+import OrderConfirmation from '../components/OrderConfirmation';
 
 const QRScanner = ({ navigation }) => {
   const [scanned, setScanned] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [orden, setOrden] = useState(null);
   const insets = useSafeAreaInsets();
   const { processQRCode } = useQRCodeService();
+  const axios = useAxios();
 
   const [permission, requestPermission] = useCameraPermissions();
 
@@ -16,24 +20,24 @@ const QRScanner = ({ navigation }) => {
     (async () => {
       requestPermission();
     })();
-  }, []);
+  }, [orden]);
 
-  const handleBarCodeScanned = async ({ type, data }) => {
+  const obtenerOrden = async (orderId) => {
+    const orden = await axios.get(`orders/byId/${orderId}`);
+    console.log(orden.data);
+    return orden.data;
+  };
+
+  const handleBarCodeScanned = async ({ data }) => {
     if (scanned) return;
-
     setScanned(true);
     setLoading(true);
-
     try {
-      const result = await processQRCode(data);
-
-      Alert.alert(
-        'Código QR Detectado',
-        `Datos: ${data}\n\nRespuesta del servidor: ${JSON.stringify(result)}`,
-        [{ text: 'Aceptar', onPress: () => setScanned(false) }]
-      );
+      const qrData = await processQRCode(data);
+      const ordenObtenida = await obtenerOrden(qrData);
+      setOrden(ordenObtenida);
     } catch (error) {
-      Alert.alert('Error', `Error al procesar el código QR: ${error.message}`, [
+      Alert.alert('Error', `Error al obener los datos del codigo qr: ${error.message}`, [
         { text: 'Aceptar', onPress: () => setScanned(false) },
       ]);
     } finally {
@@ -54,9 +58,16 @@ const QRScanner = ({ navigation }) => {
     return (
       <View style={styles.container}>
         <Text style={styles.text}>No hay acceso a la cámara</Text>
-        <Button mode="contained" onPress={() => navigation.goBack()} style={styles.button}>
-          Volver
-        </Button>
+      </View>
+    );
+  }
+
+  // Si está cargando, muestra el loader
+  if (loading) {
+    return (
+      <View style={styles.overlay}>
+        <ActivityIndicator size="large" />
+        <Text style={styles.text}>Buscando orden...</Text>
       </View>
     );
   }
@@ -69,60 +80,33 @@ const QRScanner = ({ navigation }) => {
           barcodeTypes: ['qr'],
         }}
         onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
-      >
-        <>
-          <View style={styles.buttonContainer}>
-            <Button
-              title="Volver"
-              onPress={() => navigation.goBack()}
-            />
-          </View>
-        </>
-      </CameraView>
+      />
+      {orden && (
+        <View style={styles.overlay}>
+          <OrderConfirmation
+            order={orden}
+            onCancel={() => {
+              setOrden(null);
+              setScanned(false);
+            }}
+          />
+        </View>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  camera: {
-    flex: 1,
-  },
-  text: {
-    fontSize: 18,
-    marginBottom: 20,
-    textAlign: 'center',
-  },
+  container: { flex: 1 },
+  camera: { flex: 1 },
+  text: { fontSize: 18, marginBottom: 20, textAlign: 'center' },
   overlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-  },
-  unfilled: {
-    flex: 1,
-  },
-  rowContainer: {
-    flexDirection: 'row',
-    height: 200,
-  },
-  scanner: {
-    width: 200,
-    height: 200,
-    borderWidth: 2,
-    borderColor: '#03dac6',
-    backgroundColor: 'transparent',
-  },
-  buttonContainer: {
     position: 'absolute',
-    bottom: 50,
-    width: '100%',
-    alignItems: 'center',
+    top: 0, left: 0, right: 0, bottom: 0,
     justifyContent: 'center',
-  },
-  button: {
-    width: 200,
-    borderRadius: 8,
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.4)', // oscurece el fondo
+    zIndex: 10,
   },
 });
 
