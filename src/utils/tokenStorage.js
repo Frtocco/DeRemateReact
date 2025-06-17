@@ -1,10 +1,8 @@
 import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
 
-// Check if we're running on web
 const isWeb = Platform.OS === 'web';
 
-// Mock implementation for web environment using localStorage
 const webStorage = {
   setItemAsync: (key, value) => {
     localStorage.setItem(key, value);
@@ -20,7 +18,6 @@ const webStorage = {
   },
 };
 
-// Use the appropriate storage implementation
 const storage = isWeb ? webStorage : SecureStore;
 
 export const saveToken = async (token) => {
@@ -28,7 +25,6 @@ export const saveToken = async (token) => {
     await storage.setItemAsync('jwt', token);
   } catch (error) {
     console.log('Error saving token:', error);
-    // Fallback to a simpler implementation if the method doesn't exist
     if (isWeb) {
       localStorage.setItem('jwt', token);
     }
@@ -40,7 +36,6 @@ export const getToken = async () => {
     return await storage.getItemAsync('jwt');
   } catch (error) {
     console.error('Error getting token:', error);
-    // Fallback to a simpler implementation if the method doesn't exist
     if (isWeb) {
       return localStorage.getItem('jwt');
     }
