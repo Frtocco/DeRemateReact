@@ -36,7 +36,7 @@ const OrdenesPendientes = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Historial de Órdenes</Text>
+      <Text style={styles.title}>Ordenes pendientes</Text>
       <FlatList
         data={pendientes}
         keyExtractor={(item, index) => item.orderId ? item.orderId.toString() : index.toString()}

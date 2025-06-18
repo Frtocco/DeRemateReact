@@ -3,6 +3,7 @@ import { Platform } from 'react-native';
 
 const isWeb = Platform.OS === 'web';
 
+// Implementación para WEB
 const webStorage = {
   setItemAsync: (key, value) => {
     localStorage.setItem(key, value);
@@ -18,6 +19,7 @@ const webStorage = {
   },
 };
 
+// Asigna la variable storage al almacenamiento dependiendo de la plataforma
 const storage = isWeb ? webStorage : SecureStore;
 
 export const saveToken = async (token) => {
@@ -48,7 +50,6 @@ export const removeToken = async () => {
     await storage.deleteItemAsync('jwt');
   } catch (error) {
     console.error('Error removing token:', error);
-    // Fallback to a simpler implementation if the method doesn't exist
     if (isWeb) {
       localStorage.removeItem('jwt');
     }

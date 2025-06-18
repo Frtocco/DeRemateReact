@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, Button } from 'react-native';
 import OrderCard from '../components/OrderCard';  
 import { FlatList } from 'react-native-gesture-handler';
 import { useAxios } from '../hooks/UseAxios';
@@ -9,17 +9,19 @@ const Historial = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const axios = useAxios();
 
+  const fetchOrders = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get('/orders/history');
+      setLista(response.data);
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const response = await axios.get('/orders/history');
-        setLista(response.data);
-      } catch (error) {
-        console.error('Error fetching orders:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchOrders();
   }, [axios]);
 
@@ -41,7 +43,9 @@ const Historial = ({ navigation }) => {
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         contentContainerStyle={styles.listContent}
       />
+      <Button title="Actualizar" onPress={fetchOrders} />
     </View>
+    
   );
 };
 

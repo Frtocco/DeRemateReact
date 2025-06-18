@@ -24,7 +24,6 @@ export const AuthProvider = ({ children }) => {
     setUsername(data.username);
     setEmail(data.email);
     setPuntuacion(data.stars)
-
   };
 
   const logout = async () => {
