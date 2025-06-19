@@ -3,9 +3,9 @@ import { View, Text, StyleSheet } from 'react-native';
 
 const OrderCard = ({ order }) => (
   <View style={styles.card}>
-    <Text style={styles.title}>Order #{order.orderId}</Text>
-    <Text style={styles.status}>Status: {order.status}</Text>
-    <Text style={styles.address}>Address: {order.address}</Text>
+    <Text style={styles.title}>Orden #{order.orderId}</Text>
+    <Text style={styles.status}>Estado: {order.status}</Text>
+    <Text style={styles.address}>Direccion: {order.addressDesc}</Text>
   </View>
 );
 

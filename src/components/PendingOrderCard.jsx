@@ -8,28 +8,13 @@ const PendingOrderCard = ({ order }) => {
   const axios = useAxios();
 
 
-  const handleTomarOrden = async (orderId) => {
-    try {
-      await axios.put(`/orders/${orderId}`, {status:'In Progress'});
-      setOrdenTomada(true)
-    } catch (error) {
-      console.error('Error actualizando orden:', error);
-    }
-  }
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Orden #{order.orderId}</Text>
-      <Text style={styles.text}>Dirección: {order.address}</Text>
-      <Text style={styles.text}>Estado: {ordenTomada ? 'En Proceso' : 'Pendiente'}</Text>
-
-      {ordenTomada ? (
-        <Text style={styles.takenText}>Orden tomada ✅</Text>
-      ) : (
-        <TouchableOpacity style={styles.styledButton} onPress={() => handleTomarOrden(order.orderId)}>
-          <Text style={styles.buttonText}>Tomar Viaje</Text>
-        </TouchableOpacity>
-      )}
+      <Text style={styles.text}>Dirección: {order.addressDesc}</Text>
+      <Text style={styles.text}>Estado: {order.status}</Text>
+      <Text style={styles.text}>Deposito: {order.depositLocation}</Text>
     </View>
   );
 };

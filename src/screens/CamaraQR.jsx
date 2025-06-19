@@ -4,7 +4,7 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useQRCodeService } from '../utils/qrCodeService';
 import { useAxios } from '../hooks/UseAxios';
-import OrderConfirmation from '../components/orderConfirmation';
+import OrderConfirmation from '../components/OrderConfirmation';
 
 const QRScanner = ({ navigation }) => {
   const [scanned, setScanned] = useState(false);
