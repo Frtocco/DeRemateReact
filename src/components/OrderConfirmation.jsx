@@ -25,7 +25,7 @@ const OrderConfirmation = ({ order, onCancel }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Orden #{order.orderId}</Text>
-      <Text style={styles.text}>Dirección: {order.address}</Text>
+      <Text style={styles.text}>Dirección: {order.addressDesc}</Text>
       <Text style={styles.text}>Estado: {ordenTomada ? 'En Proceso' : 'Pendiente'}</Text>
       <View style={styles.buttonRow}>
         <TouchableOpacity
