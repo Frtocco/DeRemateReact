@@ -1,5 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
 import { getToken, saveToken, removeToken } from '../utils/tokenStorage';
+import * as SecureStore from 'expo-secure-store';
+
 
 export const AuthContext = createContext();
 
@@ -19,7 +21,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (data) => {
-    await saveToken(data.authResult.token);
+    await saveToken(data.authResult.token);    
     setIsAuthenticated(true);
     setUsername(data.username);
     setEmail(data.email);
