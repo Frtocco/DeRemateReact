@@ -54,4 +54,20 @@ export const removeToken = async () => {
       localStorage.removeItem('jwt');
     }
   }
+
+};
+
+export const deleteItems = async () => {
+  try {
+    await storage.deleteItemAsync('username');
+    await storage.deleteItemAsync('email');
+    await storage.deleteItemAsync('puntuacion');
+  } catch (error) {
+    console.error('Error removing token:', error);
+    if (isWeb) {
+      await storage.deleteItemAsync('username');
+      await storage.deleteItemAsync('email');
+      await storage.deleteItemAsync('puntuacion');
+    }
+  }
 };
