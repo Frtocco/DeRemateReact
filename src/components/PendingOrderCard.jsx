@@ -10,7 +10,7 @@ const PendingOrderCard = ({ order }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Orden #{order.orderId}</Text>
-      <Text style={styles.text}>Dirección: {order.address}</Text>
+      <Text style={styles.text}>Dirección: {order.addressDesc}</Text>
       <Text style={styles.text}>Estado: {order.status}</Text>
       <Text style={styles.text}>Deposito: {order.depositLocation}</Text>
     </View>
