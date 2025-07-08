@@ -2,29 +2,26 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
 import { useAxios } from '../hooks/UseAxios';
 
-const ConfirmDeliveryButton = ({ order }) => {
+const ConfirmDeliveryButton = ({ order, handleStatus }) => {
   const [mostrarInput, setMostrarInput] = useState(false);
+  const [invalidCode, setInvalidCode] = useState(false);
   const [codigo, setCodigo] = useState('');
   const axios = useAxios();
 
   const handleConfirmar = async () => {
 
-    if(order.confirmationCode == codigo){
-        try {
-          await axios.put(`/orders/${order.orderId}`, { status: 'Completed' }); 
-        } catch (error) {
-          console.error('Error actualizando orden:', error);
-        } 
+    if (order.confirmationCode == codigo) {
+      setInvalidCode(false)
+      handleStatus('Completed')
+
+      try {
+        await axios.put(`/orders/${order.orderId}`, { status: 'Completed' });
+      } catch (error) {
+        console.error('Error actualizando orden:', error);
+      }
+    } else {
+      setInvalidCode(true)
     }
-
-
-
-    // Lógica para validar el código
-    console.log(`Código ingresado para la orden ${order.orderId}:`, codigo);
-
-    // Si todo está OK, podrías hacer un PUT a /orders/{id}/confirm o algo similar
-    setMostrarInput(false);
-    setCodigo('');
   };
 
   return (
@@ -39,13 +36,19 @@ const ConfirmDeliveryButton = ({ order }) => {
             style={styles.input}
             placeholder="Ingresar código"
             value={codigo}
-            onChangeText={setCodigo}
+            onChangeText={(text) => {
+              setCodigo(text);
+              setInvalidCode(false); 
+            }}
             keyboardType="numeric"
           />
           <TouchableOpacity style={styles.confirmButton} onPress={handleConfirmar}>
             <Text style={styles.buttonText}>Validar</Text>
           </TouchableOpacity>
         </View>
+      )}
+      {invalidCode && (
+        <Text style={styles.errorText}>Código inválido. Intentá nuevamente.</Text>
       )}
     </View>
   );
@@ -84,6 +87,12 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#fff',
+    fontWeight: 'bold',
+  },
+  errorText: {
+    color: 'red',
+    marginTop: 4,
+    marginLeft: 4,
     fontWeight: 'bold',
   },
 });

@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     borderRadius: 8,
     marginVertical: 4,
+    alignSelf: 'flex-start'
   },
   buttonText: {
     color: '#fff',

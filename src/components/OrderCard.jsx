@@ -1,22 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import ConfirmDeliveryButton from './ConfirmDeliveryButton';
 import OpenInMapsButton from './OpenInMapsButton'
 
 
-const OrderCard = ({ order }) => (
-  <View style={styles.card}>
-    <Text style={styles.title}>Orden #{order.orderId}</Text>
-    <Text style={styles.status}>Estado: {order.status}</Text>
-    <Text style={styles.address}>Direccion: {order.addressDesc}</Text>
-    {order.status === 'In Progress' && (
-      <View style={styles.buttonGroup}>
-        <ConfirmDeliveryButton order={order} />
-        <OpenInMapsButton order={order} />
-      </View>
-    )}
-  </View>
-);
+const OrderCard = ({ order }) => {
+  const [orderStatus, setOrderStatus] = useState(order.status);
+
+  return (
+    <View style={styles.card}>
+      <Text style={styles.title}>Orden #{order.orderId}</Text>
+      <Text style={styles.status}>Estado: {orderStatus}</Text>
+      <Text style={styles.address}>Dirección: {order.addressDesc}</Text>
+
+      {orderStatus === 'In Progress' && (
+        <View style={styles.buttonGroup}>
+          <ConfirmDeliveryButton order={order} handleStatus={setOrderStatus} />
+          <OpenInMapsButton order={order} />
+        </View>
+      )}
+    </View>
+  );
+};
+
 
 const styles = StyleSheet.create({
   card: {
