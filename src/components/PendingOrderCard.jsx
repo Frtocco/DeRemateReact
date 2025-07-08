@@ -7,12 +7,10 @@ const PendingOrderCard = ({ order }) => {
   const [ordenTomada, setOrdenTomada] = useState(false);
   const axios = useAxios();
 
-
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Orden #{order.orderId}</Text>
-      <Text style={styles.text}>Dirección: {order.addressDesc}</Text>
+      <Text style={styles.text}>Dirección: {order.address}</Text>
       <Text style={styles.text}>Estado: {order.status}</Text>
       <Text style={styles.text}>Deposito: {order.depositLocation}</Text>
     </View>
@@ -59,7 +57,7 @@ const styles = StyleSheet.create({
   position: 'absolute',
   bottom: 10,
   right: 10,
-  backgroundColor: '#28a745', // verde éxito
+  backgroundColor: '#28a745',
   color: 'white',
   fontWeight: 'bold',
   paddingVertical: 8,

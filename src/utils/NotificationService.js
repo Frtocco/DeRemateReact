@@ -48,13 +48,33 @@ export default function OrdenWatcher() {
         return;
       }
 
-      if (pendientesRef.current.length < nuevas.length) {
+      const anteriores = pendientesRef.current;
+
+      if (anteriores.length < nuevas.length) {
         await sendNotification(
-          '¡Nuevas ordenes disponibles!',
-          'Hay nuevas ordenes pendientes para usted.'
+          '¡Nuevas órdenes disponibles!',
+          'Hay nuevas órdenes pendientes para usted.'
         );
-        console.log('Se envio una notificacion');
+        console.log('Se envió una notificación por nuevas órdenes');
       }
+
+      nuevas.forEach(nueva => {
+        const anterior = anteriores.find(a => a.orderId === nueva.orderId);
+        if (anterior) {
+          if (anterior.status !== nueva.status) {
+            sendNotification(
+              `Orden #${nueva.orderId} actualizada`,
+              `La orden cambio de estado: ${anterior.status} → ${nueva.status}`
+            );
+            console.log(`Orden ${nueva.orderId} cambio de estado`);
+          }if (anterior.address !== nueva.address){
+            sendNotification(
+              `Orden #${nueva.orderId} actualizada`,
+              `La orden cambio de direccion: ${anterior.address} → ${nueva.address}`
+            );
+          }
+        }
+      });
 
       pendientesRef.current = nuevas;
     } catch (error) {
@@ -63,7 +83,6 @@ export default function OrdenWatcher() {
       setLoading(false);
     }
   };
-
 
   const startPeriodicNotifications = (intervalMinutes = 1) => {
     if (notificationInterval.current) {

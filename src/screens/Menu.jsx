@@ -37,10 +37,6 @@ const Menu = ({ navigation }) => {
       <OrderStatistics cantidad={viajesCompletados}/>
       <Puntuacion cantidad={puntuacion}/>
 
-      <TouchableOpacity style={styles.styledButton} onPress={logout}>
-        <Text style={styles.buttonText}>Log out</Text>
-      </TouchableOpacity>
-
     </View>
   );
 };

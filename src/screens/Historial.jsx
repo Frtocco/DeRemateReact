@@ -43,7 +43,7 @@ const Historial = ({ navigation }) => {
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         contentContainerStyle={styles.listContent}
       />
-      <Button title="Actualizar" onPress={fetchOrders} />
+      <Button title="Actualizar" onPress={fetchOrders} style={styles.button}/>
     </View>
     
   );
@@ -75,6 +75,10 @@ const styles = StyleSheet.create({
   listContent: {
     paddingBottom: 20,
   },
+  button: {
+    margin: 10,
+    paddingBottom: 30
+  }
 });
 
 export default Historial;
